@@ -12,4 +12,10 @@ router.get('/', customerController.getAll);
 //GetById=> localhost:3000/api/customers/ID
 router.get('/:customerId', customerController.getById);
 
+//Put=> localhost:3000/api/produtos/ID
+router.put('/:customerId', customerController.put);
+
+//Delete=> localhost:3000/api/produtos/ID
+router.delete('/:customerId', customerController.delete);
+
 module.exports = router;

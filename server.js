@@ -20,18 +20,19 @@ const router = express.Router();//intercepta todas as rotas
 const productRoute = require('./src/routes/product-route');
 const customerRoute = require('./src/routes/customer-route');
 const indexRoute = require('./src/routes/index-route');
+const loginRoute = require('./src/routes/login-route');
 
 //Vincular a aplicação (app) com o motor de rotas 
 // '/api' é o caminho padrão para as APIs REST
 
 //rota principal
 app.use('/api', indexRoute);
-
 //rota para produto
 app.use('/api/produtos/', productRoute);
-
 //rota para customer
 app.use('/api/customers/', customerRoute);
+//rota para login
+app.use('/api/login/', loginRoute);
 
 app.listen(port, () => {
     console.log("server is up and running...on port ", port);
