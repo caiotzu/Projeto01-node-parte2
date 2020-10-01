@@ -22,7 +22,10 @@ exports.post = async (req, res) => {
 exports.getAll = async (req, res) => {
     try {
         const data = await repository.getAll()
-        res.status(200).send(data)
+        res.status(200).send({
+            quantidadeTotal: data.length,
+            produtos: data
+        })
 
     } catch(error) {
         res.status(500).send({
@@ -36,10 +39,20 @@ exports.getById = async (req, res) => {
     try {
         const id = req.params.productId
         const data = await repository.getById(id)
-        res.status(200).send(data)
+        if(data == null)
+            res.status(200).send({
+                message: 'Nenhum produto encontrado para esse ID',
+                produto: data
+            })
+        else
+            res.status(200).send({
+                message: 'Produto encontrado',
+                produto: data
+            })
+         
     } catch(error) {
         res.status(500).send({
-            message: `Falha ao processar requisição.`,
+            message: `Erro ao tentar encontrar produto; ID mal formado.`,
             erro: error
         })
     }
