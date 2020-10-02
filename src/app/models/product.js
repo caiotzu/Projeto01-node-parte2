@@ -7,4 +7,6 @@ const produtoSchema = new Schema({
     descricao: String
 });
 
-module.exports = mongoose.model('Produto', produtoSchema);
+//module.exports = mongoose.model('Produto', produtoSchema); // Antigo
+module.exports = conn.model('Produto', produtoSchema); // novo
+

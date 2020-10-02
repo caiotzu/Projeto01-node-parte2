@@ -1,4 +1,5 @@
 const repository = require('../repositories/product-ropository')
+const logRepository = require('../repositories/log-repository')
 
 
 exports.post = async (req, res) => {
@@ -8,11 +9,24 @@ exports.post = async (req, res) => {
             preco: req.body.preco,
             descricao: req.body.descricao
         })
+
+        // Salva o log
+        await logRepository.log({
+            modulo: `Produto Insert`,
+            dados: [{'name': req.body.name, 'proco': req.body.preco, 'descricao': req.body.descricao}]
+        })
+
         res.status(201).send({
             message: `Produto cadastrado com sucesso.`
         })
     } catch(error) {
-        console.log(error)
+        
+        // Salva o log
+        await logRepository.log({
+            modulo: `Produto Insert`,
+            dados: [{'error': error}]
+        })
+
         res.status(500).send({
             message: `Falha ao processar a requisição.`
         })
@@ -62,11 +76,25 @@ exports.put = async (req, res) => {
     try {
         const id = req.params.productId
         const data = await repository.put(id, req.body)
+
+        // Salva o log
+        await logRepository.log({
+            modulo: `Produto Update`,
+            dados: [{'id': id, 'name': req.body.name, 'proco': req.body.preco, 'descricao': req.body.descricao}]
+        })
+
         res.status(200).send({
             message: `Produto atualizado com sucesso.`,
             dados: data
         })
     } catch(error){
+
+        // Salva o log
+        await logRepository.log({
+            modulo: `Produto Update`,
+            dados: [{'error': error}]
+        })
+
         res.status(500).send({
             message: `Falha ao processar a requisição.`,
             erro: error
@@ -78,10 +106,24 @@ exports.delete = async (req, res) => {
     try {
         const id = req.params.productId
         await repository.delete(id)
+
+        // Salva o log
+        await logRepository.log({
+            modulo: `Produto Delete`,
+            dados: [{'id': id}]
+        })
+
         res.status(200).send({
             message: `Produto removido com sucesso.`
         })
     } catch(error) {
+        
+        // Salva o log
+        await logRepository.log({
+            modulo: `Produto Delete`,
+            dados: [{'error': error}]
+        })
+
         res.status(500).send({
             message: `Falha ao processar a raquisição.`,
             erro: error

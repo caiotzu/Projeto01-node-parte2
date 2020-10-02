@@ -27,4 +27,6 @@ const customerSchema = new Schema({
         return bcrypt.compareSync(password, this.password)
     }
 
-module.exports = mongoose.model('Customer', customerSchema);
+// module.exports = mongoose.model('Customer', customerSchema);
+module.exports = conn.model('Customer', customerSchema);
+
